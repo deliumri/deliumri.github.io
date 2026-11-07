@@ -1,15 +1,221 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>suite</title>
-  <style>
-    body { font-family: system-ui, sans-serif; max-width: 700px; margin: 4rem auto; padding: 0 1rem; }
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DELIUMRI</title>
+<meta name="description" content="DELIUMRI — link / project / works">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #000;
+    --fg: #fff;
+    --display: 'Comfortaa', 'Nunito', sans-serif;
+    --mono: 'JetBrains Mono', ui-monospace, Menlo, monospace;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { background: var(--bg); }
+  body {
+    min-height: 100vh;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: var(--display);
+    overflow-x: hidden;
+    padding: clamp(48px, 12vh, 140px) clamp(20px, 7vw, 110px) 100px;
+  }
+
+  header { text-align: center; }
+  .title {
+    font-weight: 300;
+    font-size: clamp(44px, 12.2vw, 190px);
+    line-height: 1;
+    letter-spacing: -.01em;
+    white-space: nowrap;
+    animation: float 7s ease-in-out 2.4s infinite;
+  }
+
+  @keyframes float {
+    0%, 100% { translate: 0 0; }
+    25%      { translate: .015em -.07em; }
+    50%      { translate: 0 -.12em; }
+    75%      { translate: -.015em -.06em; }
+  }
+  .sub { display: inline-block; text-align: left; margin-top: clamp(14px, 2.4vw, 32px); font-family: var(--mono); }
+  .sub .nav { font-weight: 500; font-size: clamp(16px, 3vw, 46px); letter-spacing: .02em; white-space: pre; }
+  .sub .note {
+    margin-top: .35em;
+    font-size: clamp(9px, 1.35vw, 22px);
+    letter-spacing: .04em;
+    opacity: .85;
+    animation: noteIn .5s steps(1) 2.4s backwards;
+  }
+  .note::after { content: '▍'; margin-left: .2em; animation: blink 1.1s steps(1) infinite; }
+  @keyframes blink { 50% { opacity: 0; } }
+  @keyframes noteIn { from { opacity: 0; } }
+
+  /* ---------- LINKS ---------- */
+  nav.links { margin-top: clamp(48px, 9vw, 130px); display: flex; flex-direction: column; align-items: flex-start; }
+  .links a {
+    display: inline-block;
+    padding: clamp(10px, 1.6vw, 22px) 0;
+    font-weight: 300;
+    font-size: clamp(22px, 3.4vw, 54px);
+    letter-spacing: .5em;
+    text-transform: uppercase;
+    color: var(--fg);
+    text-decoration: none;
+    white-space: nowrap;
+    transition: letter-spacing .6s cubic-bezier(.2,.8,.2,1), opacity .3s;
+    outline-offset: 6px;
+  }
+  .links a:hover, .links a:focus-visible { letter-spacing: .72em; }
+  .links a:focus-visible { outline: 1px solid var(--fg); }
+  .links:hover a:not(:hover) { opacity: .4; }
+
+  .ch {
+    display: inline-block;
+    animation:
+      boot 1.3s cubic-bezier(.2,.8,.2,1) var(--d, 0ms) backwards,
+      wig var(--wd, 3s) ease-in-out var(--wl, 0s) infinite alternate;
+  }
+
+  @keyframes boot {
+    0%   { opacity: 0; filter: blur(14px); transform: translate(var(--bx), var(--by)) scale(1.7) skewX(18deg); }
+    60%  { opacity: 1; filter: blur(1px); transform: translate(calc(var(--bx) * -.06), 0) skewX(-6deg); }
+    100% { opacity: 1; filter: blur(0); transform: none; }
+  }
+  /* Постоянное лёгкое шевеление (отдельные свойства translate/rotate, не конфликтуют с transform) */
+  @keyframes wig {
+    from { translate: 0 0; rotate: 0deg; }
+    to   { translate: var(--wx) var(--wy); rotate: var(--wr); }
+  }
+
+  /* Луч при загрузке */
+  .beam {
+    position: fixed; left: 0; right: 0; top: 0; height: 2px;
+    pointer-events: none; z-index: 5; opacity: 0;
+    background: linear-gradient(90deg, transparent, #fff 15%, #fff 85%, transparent);
+    box-shadow: 0 0 30px rgba(255,255,255,.4);
+    animation: beam 1.6s cubic-bezier(.65,0,.25,1) .1s forwards;
+  }
+  @keyframes beam { 0% { transform: translateY(0); opacity: 1; } 100% { transform: translateY(100vh); opacity: 0; } }
+
+  @media (max-width: 600px) {
+    .links a { letter-spacing: .32em; }
+    .links a:hover, .links a:focus-visible { letter-spacing: .44em; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .ch, .beam, .note, .title { animation: none !important; }
+    .beam { display: none; }
+  }
+</style>
 </head>
 <body>
-  <h1>hi! 👋</h1>
-  <p>its pages in GitHub Pages.</p>
+
+<div class="beam" aria-hidden="true"></div>
+
+<header>
+  <h1 class="title" data-split data-order="center" data-step="75" data-start="250">DELIUMRI</h1>
+  <br>
+  <div class="sub">
+    <div class="nav" data-split data-step="35" data-start="1300">LINK | PROJCT | WORKS</div>
+    <div class="note">This page is under development</div>
+  </div>
+</header>
+
+<nav class="links" aria-label="Ссылки">
+  <a href="https://deliumri.itch.io" target="_blank" rel="noopener" data-split data-step="45">itch.io</a>
+  <a href="https://deliumri.bandcamp.com" target="_blank" rel="noopener" data-split data-step="45">bandcamp</a>
+  <a href="https://soundcloud.com/deliumri" target="_blank" rel="noopener" data-split data-step="45">soundcloud</a>
+  <a href="https://ru.pinterest.com/deliumri" target="_blank" rel="noopener" data-split data-step="45">pinterest</a>
+  <a href="https://www.tumblr.com/deliumri" target="_blank" rel="noopener" data-split data-step="45">tumblr</a>
+  <a href="https://x.com/DELIUMRI" target="_blank" rel="noopener" data-split data-step="45">twitter</a>
+  <a href="https://www.shadertoy.com/profile/DELIUMRI" target="_blank" rel="noopener" data-split data-step="45">shadertoy</a>
+  <a href="https://discord.com/users/1568511533254840390" target="_blank" rel="noopener" data-split data-step="45">discord</a>
+  <a href="https://www.youtube.com/@DELIUMRI" target="_blank" rel="noopener" data-split data-step="45">youtube</a>
+  <a href="t.me/DELIUMRI" target="_blank" rel="noopener" data-split data-step="45">telegram</a>
+</nav>
+
+<script>
+(function () {
+  var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var pool = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789#%&*';
+  var rnd = function (a, b) { return a + Math.random() * (b - a); };
+  var all = [];
+  var linkIdx = 0;
+
+  /* 1. Разбиваем на буквы, раздаём каждой параметры загрузки и шевеления */
+  document.querySelectorAll('[data-split]').forEach(function (el) {
+    var text = el.textContent;
+    var isTitle = el.classList.contains('title');
+    var center = el.dataset.order === 'center';
+    var step = +el.dataset.step || 50;
+    var start = el.dataset.start ? +el.dataset.start : 1900 + (linkIdx++) * 170;
+    var mid = (text.length - 1) / 2;
+    el.setAttribute('aria-label', text);
+    el.textContent = '';
+
+    Array.from(text).forEach(function (c, i) {
+      var s = document.createElement('span');
+      s.className = 'ch';
+      s.setAttribute('aria-hidden', 'true');
+      s.dataset.c = c;
+      s.textContent = c === ' ' ? '\u00A0' : c;
+      var amp = isTitle ? .02 : .035;
+      var d = start + (center ? Math.abs(i - mid) : i) * step;
+      s.style.setProperty('--d', d + 'ms');
+      s.style.setProperty('--bx', rnd(-1.5, 1.5).toFixed(2) + 'em');
+      s.style.setProperty('--by', rnd(-1.2, 1.2).toFixed(2) + 'em');
+      s.style.setProperty('--wx', rnd(-amp, amp).toFixed(3) + 'em');
+      s.style.setProperty('--wy', rnd(-amp, amp).toFixed(3) + 'em');
+      s.style.setProperty('--wr', rnd(-1, 1).toFixed(2) * (isTitle ? 1.4 : 3) + 'deg');
+      s.style.setProperty('--wd', rnd(1.8, 4.2).toFixed(2) + 's');
+      s.style.setProperty('--wl', (-rnd(0, 4)).toFixed(2) + 's');
+      if (isTitle) {
+        s.style.setProperty('--wx', '0em');
+        s.style.setProperty('--wy', '-.07em');
+        s.style.setProperty('--wr', '0deg');
+        s.style.setProperty('--wd', '2.6s');
+        s.style.setProperty('--wl', (-i * .35) + 's');
+      }
+      el.appendChild(s);
+      all.push(s);
+
+      if (!reduce && c.trim()) {
+        setTimeout(function () {
+          var t = 0;
+          var iv = setInterval(function () {
+            t += 45;
+            if (t > 700) { clearInterval(iv); s.textContent = c; return; }
+            s.textContent = pool[Math.floor(Math.random() * pool.length)];
+          }, 45);
+        }, d);
+      }
+    });
+  });
+
+  if (reduce) return;
+
+  document.querySelectorAll('.links a').forEach(function (a) {
+    var chars = Array.from(a.querySelectorAll('.ch'));
+    var timer;
+    function on() {
+      clearInterval(timer);
+      var f = 0;
+      timer = setInterval(function () {
+        chars.forEach(function (ch, i) {
+          ch.textContent = f > i * 2 + 4 ? ch.dataset.c : pool[Math.floor(Math.random() * pool.length)];
+        });
+        if (++f > chars.length * 2 + 6) clearInterval(timer);
+      }, 35);
+    }
+    a.addEventListener('mouseenter', on);
+    a.addEventListener('focus', on);
+  });
+
+})();
+</script>
 </body>
 </html>
